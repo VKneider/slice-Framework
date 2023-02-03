@@ -1,4 +1,6 @@
-class ImgCarousel extends HTMLElement {
+
+
+export default class ImgCarousel extends HTMLElement {
   constructor() {
     super();
     
@@ -7,17 +9,20 @@ class ImgCarousel extends HTMLElement {
     this.slides = [];
     this.currentImage = 0;
     this.maxImage = 0;
+
+    
     this.setupShadow();
-  
-    window.slice.controller.loadTemplate("../../../templates/img-carousel.html")
+    window.slice.controller.loadTemplate("slice/templates/img-carousel.html");
     window.slice.controller.toRegister(this);
+    
   }
+  
 
   attributeChangedCallback(name, oldValue, newValue) {
     let slider = this.shadow.querySelector(".slider");
     switch (name) {
       case "jump":
-        console.log("pepe")
+        
         this.jumpInterval = newValue * 1000;
         break;
 
@@ -71,9 +76,10 @@ class ImgCarousel extends HTMLElement {
   }
   
   setupShadow() {
+    
     this.shadow = this.attachShadow({ mode: "open" });
-    const template = document.getElementById("img-carousel-template");
-    this.shadow.appendChild(template.content.cloneNode(true));
+    //const template = document.getElementById("img-carousel-template");
+    //this.shadow.appendChild(template.content.cloneNode(true));
   }
 
   changeStyles(styles) {
