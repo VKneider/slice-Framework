@@ -4,27 +4,56 @@ export default class Controller {
     }
 
     toRegister (component) {
-        this.components.set(component);
+
+        if(this.components.has(component.id)){
+            component.remove();
+            return alert("ALERT: A Component with the same ID is already registered");  
+        }
+
+        if(component.id=="")
+        {
+            this.components.set(component.constructor.name+`-${id}`,component);id++;
+        } 
+        else {
+            this.components.set(component.id, component);
+             }
     }
 
     getInstance(id){
         return this.components.get(id);
     }
 
-    async loadTemplate (template) {
-        let container = document.getElementById("templates-container");
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', template, true);
-        xhr.onload = function () {
-            if (this.status === 200) {
-            container.appendchild(this.responseText);
-            }
-        };
-    xhr.send();
+    loadTemplate (template) {
+        
+        return new Promise((resolve, reject) => {
+            const request =  fetch(template).then(response=>{
+                let html = response.text().then(html=>{
+                    const templateElement = document.createElement('template');
+                    templateElement.innerHTML = html;
+                    //document.head.appendChild(templateElement)
+                    resolve(templateElement);
+                })
+            })
+        });
+        
+    
+
+    }
+    
+    loadCss(css){
+        let styles = document.getElementById("styles-slice");
+        return new Promise((resolve, reject) => {
+
+        let request = fetch(css).then(response=>{
+            let css = response.text().then(css=>{
+                styles.innerHTML+=css;
+            })
+        })
+        resolve();
+    });
+    }
 }
 
-}
-
-//function to load html template to the DOM
+let id=0;
 
 
